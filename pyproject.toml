@@ -56,3 +56,5 @@ Issues = "https://github.com/icb08/classproperties/issues"
 
 [tool.hatch.version]
 path = "classproperties/__init__.py"
+
+# [project.optional-dependencies] \n colors = ["colorama>=0.4"]
