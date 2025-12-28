@@ -1,1 +1,58 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
+[project]
+name = "classproperties"
+authors = [ { name = "Isaac Bell" } ]
+dynamic = ["version"]
+description = "Properties for class attributes."
+readme = "README.md"
+requires-python = ">=3.6"
+license = "MIT"
+
+keywords = [
+    "python",
+    "class",
+    "metaclass",
+    "attribute",
+    "classattribute",
+    "property",
+    "properties",
+    "classproperty",
+    "classproperties",
+    "descriptor",
+    "getter",
+    "setter",
+    "deleter",
+]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Source = "https://github.com/icb08/classproperties"
+Documentation = "https://github.com/icb08/classproperties/wiki"
+Issues = "https://github.com/icb08/classproperties/issues"
+
+[tool.hatch.version]
+path = "classproperties/__init__.py"
