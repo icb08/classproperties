@@ -1,6 +1,6 @@
 # ICB - Class Properties
 - **Author:** [Isaac Bell](https://github.com/icb08)
-- **Version:** 1.0
+- **Version:** 1.0.0
 
 ---
 
