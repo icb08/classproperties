@@ -10,4 +10,6 @@ All new releases will be documented here.
 
 ### Changed
 
+### Removed
+
 ### Fixed
