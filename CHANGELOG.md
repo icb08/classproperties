@@ -4,8 +4,6 @@ All new releases will be documented here.
 
 To update your installed packages:
 
-## Installation
-
 <details open>
 <summary><strong>Windows</strong></summary>
 
