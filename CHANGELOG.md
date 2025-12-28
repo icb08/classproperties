@@ -24,5 +24,4 @@ All major, minor and patch releases will be documented here, with details on add
 ## *[1.0.0] - 29/12/2025* <a name="1-0-0"></a>
 
 ### Added
-- 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>test
+-
