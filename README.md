@@ -10,7 +10,7 @@ The `classproperty` class aims to emulate the behaviours of python's built-in `p
 ## Links
 
 - **[Source Code](https://github.com/icb08/clsproperties)**
-- **[Documentation](https://github.com/icb08/clsproperties/wiki)**
-- **[Changelog](https://github.com/icb08/clsproperties/wiki/changelog)**
 - **[Issues](https://github.com/icb08/clsproperties/issues)**
+- **[Documentation](https://github.com/icb08/clsproperties/wiki/documentation)**
+- **[Changelog](https://github.com/icb08/clsproperties/wiki/changelog)**
 - **[License](https://github.com/icb08/clsproperties/blob/main/LICENSE)**
