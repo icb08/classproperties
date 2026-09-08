@@ -28,7 +28,7 @@ jobs:
           # Ensures a Full Clone is created (instead of a Shallow Clone) so the Documentation tool can read the gh-pages Branch of the GitHub Repository, ensuring Documentation for previous Versions isn't overwritten.
           fetch-depth: 0
       
-      # Fetches the gh-pages Branch from the GitHub Repository and forcefully creates a copy in the local gh-pages Branch
+      # Fetches the gh-pages Branch from the GitHub Repository and forcefully creates a copy in the local gh-pages Branch.
       - name: Fetch gh-pages Branch
         run: git fetch origin gh-pages:gh-pages || true
 
@@ -47,7 +47,8 @@ jobs:
       # Installs the Python Packages required to build and deploy the Documentation to the Python Environment.
       - name: Install Dependencies
         run: pip install mkdocs mkdocs-material mike mkdocs-include-markdown-plugin mkdocs-github-admonitions-plugin mkdocs-git-revision-date-localized-plugin
-    
+          
+      # 
       - name: Deploy Documentation Version
         run: |
           TAG_NAME="${{ github.event.release.tag_name }}"
