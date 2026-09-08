@@ -28,7 +28,7 @@ jobs:
           # Ensures a Full Clone is created (instead of a Shallow Clone) so the Documentation tool can read the gh-pages Branch of the GitHub Repository, ensuring Documentation for previous Versions isn't overwritten.
           fetch-depth: 0
       
-      # Fetches the gh-pages Branch from the GitHub Repository and forcefully creates a copy in the local gh-pages Branch.
+      # Fetches the gh-pages Branch from the GitHub Repository and forcefully creates a copy in the local gh-pages Branch
       - name: Fetch gh-pages Branch
         run: git fetch origin gh-pages:gh-pages || true
 
