@@ -9,48 +9,44 @@ on:
 # Defines the Workflow Jobs (execution processes) that build the Documentation Version into a Static Website and deploy the Static Website to GitHub Pages (alongside other Versions).
 jobs:
 
-  # Job 1 - Builds the Documentation Version (Markdown Files and Metadata / Configuration Files in the GitHub Repository Commit linked to the Git Tag of the GitHub Release that triggered the Workflow) into a Static Website and deploys the Static Website to GitHub Pages (alongside other Versions).
+  # Job 1 - Builds the Documentation Version (Markdown Files and Metadata / Configuration Files in the Tagged Commit linked to the GitHub Release that triggered the Workflow) into a Static Website and deploys the Static Website to GitHub Pages (alongside other Versions).
   deploy:
     # Creates a Linux Runner (a new Virtual Machine with a Linux OS and some basic programming languages installed) and opens the Runner Workspace (completely empty directory) to complete Job 1 in.
     runs-on: ubuntu-latest
 
-    # Grants the Job permission to write to the GitHub Pages Branch of the GitHub Repository.
+    # Grants Job 1 permission to write to the gh-pages Branch of the GitHub Repository.
     permissions:
         contents: write
     
     # Defines the Steps (individual processes) to complete Job 1.
     steps:
-      # Creates a Shallow Clone of the GitHub Repository Commit (linked to the Git Tag of the GitHub Release that triggered the Workflow) in the Runner Workspace, by initialising a Git Repository in the Runner Workspace (with Remote Origin set to the GitHub Repository) and fetching (downloading into the .git/ directory) and checking out (extracting into the Runner Workspace) the specific Commit so the Runner can access the GitHub Repository files.
-      # Creates a Full Clone of the GitHub Repository (full Commit History) in the Runner Workspace, by initialising a Git Repository in the Runner Workspace (with Remote Origin set to the GitHub Repository) and fetching and checking out (downloading and extracting) the GitHub Repository to the Runner Workspace so the Runner can access the files.
+      # Step 1 - Creates a Full Clone of the GitHub Repository in the Runner Workspace, by initialising a Repository on the Runner (with Remote Origin set to the GitHub Repository), fetching the GitHub Repository (downloading all Objects - Tags / Commits / Trees / Blobs - and References - Tags / Remote-Tracking Branches) and switching to the Tagged Commit (linked to the GitHub Release that triggered the Workflow)(changing HEAD to the Commit SHA, resulting in a Detached HEAD, and extracting the Commit files into the Runner Workspace) so the Runner can access the GitHub Repository files.
       - name: Checkout GitHub Repository
         uses: actions/checkout@v7
         with:
-          # Ensures a Full Clone is created (instead of a Shallow Clone) so the Documentation tool can read the gh-pages Branch of the GitHub Repository, ensuring Documentation for previous Versions isn't overwritten.
+          # Ensures a Full Clone is created (instead of a Shallow Clone) so the Documentation tool can read the gh-pages Branch of the GitHub Repository, ensuring previous Documentation Versions aren't overwritten.
           fetch-depth: 0
-      
-      # Fetches the gh-pages Branch from the GitHub Repository and forcefully creates a copy in the local gh-pages Branch.
-      - name: Fetch gh-pages Branch
-        run: git fetch origin gh-pages:gh-pages || true
 
-      # Sets global Git credentials on the Runner to the GitHub Actions Bot credentials, so that Commits to the gh-pages Branch of the GitHub Repository can be signed off.
+      # Step 2 - Sets global Git Credentials on the Runner to the GitHub Actions Bot Credentials, so that Commits to the gh-pages Branch of the GitHub Repository can be signed off.
       - name: Configure Git Credentials
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      # Sets up a Python Environment (with the latest Python 3 version) in the Runner Workspace.
+      # Step 3 - Gets the Release Version (name of the Git Tag linked to the GitHub Release that triggered the Workflow) and stores it in the VERSION_NAME Environment Variable so it can be accessed by the Documentation tool.
+      - name: Get Release Version
+        run: echo "VERSION_NAME=${{ github.event.release.tag_name }}" >> "$GITHUB_ENV"
+
+      # Step 4 - Sets up a Python Environment (with the latest Python 3 version) in the Runner Workspace.
       - name: Set up Python Environment
         uses: actions/setup-python@v7
         with:
           python-version: "3.x"
       
-      # Installs the Python Packages required to build and deploy the Documentation to the Python Environment.
+      # Step 5 - Installs the Python Packages required to build and deploy the Documentation to the Python Environment.
       - name: Install Dependencies
         run: pip install mkdocs mkdocs-material mike mkdocs-include-markdown-plugin mkdocs-github-admonitions-plugin mkdocs-git-revision-date-localized-plugin
           
-      # 
+      # Step 6 - Builds the Documentation Version into a Static Website, deploys the Static Website to GitHub Pages (alongside other Versions), and updates the "latest" alias to point to the new Documentation Version.
       - name: Deploy Documentation Version
-        run: |
-          TAG_NAME="${{ github.event.release.tag_name }}"
-          mike deploy --push --update-aliases "$TAG_NAME" latest
-          mike set-default --push latest
+        run: mike deploy --push --update-aliases "$VERSION_NAME" latest
