@@ -31,7 +31,7 @@ jobs:
       - name: Configure Git Credentials
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       # Step 3 - Gets the Release Version (name of the Git Tag linked to the GitHub Release that triggered the Workflow) and stores it in the VERSION_NAME Environment Variable so it can be accessed by the Documentation tool.
       - name: Get Release Version

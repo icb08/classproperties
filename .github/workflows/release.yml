@@ -1,0 +1,39 @@
+
+name: Release Python Library
+
+on:
+    workflow_dispatch:
+        inputs:
+            version:
+                description: "Version ID (e.g. 1.0.0)"
+                type: string
+                required: true
+            commit:
+                description: "Commit Hash"
+                type: string
+                required: true
+
+            added:
+                description: "Added Features"
+                type: string
+                required: false
+            
+            changed:
+                description: Changed Features
+                type: string
+                required: false
+
+            removed:
+                description: "Removed Features"
+                type: string
+                required: false
+            
+            fixed:
+                description: Fixed Features
+                type: string
+                required: false
+
+jobs:
+
+    test:
+        runs-on: ubuntu-latest
