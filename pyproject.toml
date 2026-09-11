@@ -4,7 +4,7 @@ authors = [{name = "Isaac Bell"}]
 dynamic = ["version"]
 description = "This library provides classproperty objects for controlled access to class attributes."
 readme = "README.md"
-requires-python = ">=3.6"
+requires-python = ">=3.11"
 license = "MIT"
 license-files = ["LICENSE"]
 keywords = [

@@ -1,6 +1,6 @@
 """
 # clsproperties
-- **Version:** [1.0.0](https://github.com/icb08/clsproperties/releases/tag/v1.0.0) ([Python 3.6+](https://www.python.org/downloads/))
+- **Version:** [1.0.0](https://github.com/icb08/clsproperties/releases/tag/v1.0.0) ([Python 3.11+](https://www.python.org/downloads/))
 - **Author:** [Isaac Bell](https://github.com/icb08)
 - **License:** [MIT](https://github.com/icb08/clsproperties/blob/main/LICENSE)
 
@@ -41,6 +41,9 @@ Keep in mind that it may take some time for issues and pull requests to be revie
 > This is the GitHub Pull Requests Page for the `clsproperties` library. Any code suggestions for the library can be sent here.
 """
 
+from collections.abc import Callable
+from typing import Any, Self
+
 __author__ = "Isaac Bell"
 __version__ = "1.0.0"
 __all__ = ["classproperty", "ClassPropertyMeta"]
@@ -56,11 +59,11 @@ class classproperty:
     ---
 
     ## Attributes / Properties
-    - **fget** (attribute) : *function*
+    - **fget** (attribute) : *callable* | None
     > The getter function of the `classproperty` object.
-    - **fset** (attribute) : *function*
+    - **fset** (attribute) : *callable* | None
     > The setter function of the `classproperty` object.
-    - **fdel** (attribute) : *function*
+    - **fdel** (attribute) : *callable* | None
     > The deleter function of the `classproperty` object.
 
     ---
@@ -74,7 +77,11 @@ class classproperty:
     > Define the deleter function of the `classproperty` object.
     """
 
-    def __init__(self, fget: function = None, fset: function = None, fdel: function = None, doc: str = None):
+    fget: Callable[..., Any] | None
+    fset: Callable[..., Any] | None
+    fdel: Callable[..., Any] | None
+
+    def __init__(self, fget: Callable[..., Any] | None = None, fset: Callable[..., Any] | None = None, fdel: Callable[..., Any] | None = None, doc: str | None = None):
         """
         Instantiate a `classproperty` object.
 
@@ -99,22 +106,23 @@ class classproperty:
         self.fdel = fdel.__func__ if isinstance(fdel, (classmethod, staticmethod)) else fdel
         self.__doc__ = doc or (self.fget.__doc__ if self.fget else None)
 
-    def __set_name__(self,  cls,  name):
+    def __set_name__(self,  owner,  name):
+        self.__owner__ = owner
         self.__name__ = name
     
     def __get__(self,  instance,  cls=None):
         if cls is None: cls = type(instance)
-        if self.fget is None: raise AttributeError(f"Class property '{self.__name__}' of '{cls.__name__}' object has no getter.")
+        if self.fget is None: raise AttributeError(f"classproperty '{self.__name__}' of '{cls.__name__}' class {'' if cls == self.__owner__ else ''} has no getter.")
         return self.fget(cls)
     
     def __set__(self,  instance,  value):
         cls = type(instance)
-        if self.fset is None: raise AttributeError(f"Class property '{self.__name__}' of '{cls.__name__}' object has no setter.")
+        if self.fset is None: raise AttributeError(f"classproperty '{self.__name__}' of '{cls.__name__}' class has no setter.")
         return self.fset(cls, value)
     
     def __delete__(self,  instance):
         cls = type(instance)
-        if self.fdel is None: raise AttributeError(f"Class property '{self.__name__}' of '{cls.__name__}' object has no deleter.")
+        if self.fdel is None: raise AttributeError(f"classproperty '{self.__name__}' of '{cls.__name__}' class has no deleter.")
         return self.fdel(cls)
     
     def getter(self,  fget):
@@ -176,7 +184,7 @@ class classproperty:
         > Returns a new `classproperty` object, with the specified deleter function.
         """
         return type(self)(self.fget,  self.fset,  fdel,  self.__doc__)
-    
+
 class ClassPropertyMeta(type):
     """
     Class property metaclass.
